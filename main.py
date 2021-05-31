@@ -1,4 +1,4 @@
-from project import app
+from covidviewer import app
 
 '''
 from flask import Flask, render_template
