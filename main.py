@@ -1,3 +1,6 @@
+from project import app
+
+'''
 from flask import Flask, render_template
 #from config import Config
 from flask_sqlalchemy import SQLAlchemy 
@@ -21,7 +24,4 @@ class Entry(db.Model):
         self.date = date
         self.province = province
         self.cases = cases
-
-@app.route("/")
-def index():
-    return render_template('index.html')
+'''
