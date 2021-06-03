@@ -10,3 +10,4 @@ env*
 .cache/
 .pytest_cache/
 .vscode
+.sqlite3

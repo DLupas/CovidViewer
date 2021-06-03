@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for hospital in hospitals %}
+<div>
+    <p>{{ hospital }}</p>
+</div>
+{% endfor %}
+{% endblock %}
