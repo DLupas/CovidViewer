@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for data in daily_data %}
+<div>
+    <p>{{ data }}</p>
+</div>
+{% endfor %}
+{% endblock %}
