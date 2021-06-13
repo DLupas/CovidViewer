@@ -61,3 +61,36 @@ JavaScript error: resource://gre/modules/Sqlite.jsm, line 1030: Error: Sqlite.js
 
 ###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
 
+1623516266157	geckodriver	INFO	Listening on 127.0.0.1:50985
+1623516267153	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofileiLJXXW"
+1623516268042	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofileiLJXXW/search.json.mozlz4", (void 0)))
+1623516270225	Marionette	INFO	Listening on port 50997
+1623516270308	Marionette	WARN	TLS certificate errors will be ignored for this session
+1623516271989	Marionette	INFO	Stopped listening on port 50997
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'MarionetteEvents'
+JavaScript error: resource:///modules/FaviconLoader.jsm, line 596: InvalidStateError: JSWindowActorChild.sendAsyncMessage: JSWindowActorChild cannot send at the moment
+JavaScript error: resource:///modules/FaviconLoader.jsm, line 596: InvalidStateError: JSWindowActorChild.sendAsyncMessage: JSWindowActorChild cannot send at the moment
+JavaScript error: resource://gre/modules/Sqlite.jsm, line 1030: Error: Sqlite.jsm has been shutdown. Cannot open connection to: /var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofileiLJXXW/protections.sqlite
+1623516344835	geckodriver	INFO	Listening on 127.0.0.1:51108
+1623516345849	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofile33AtFa"
+1623516346376	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofile33AtFa/search.json.mozlz4", (void 0)))
+1623516348366	Marionette	INFO	Listening on port 51119
+1623516348468	Marionette	WARN	TLS certificate errors will be ignored for this session
+1623516353586	Marionette	INFO	Stopped listening on port 51119
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 718: Error: Phase "Sqlite.jsm: wait until all connections are closed" is finished, it is too late to register completion condition "protections.sqlite#0: waiting for shutdown"
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1623516406436	geckodriver	INFO	Listening on 127.0.0.1:51227
+1623516406445	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofileq3JgCF"
+1623516406964	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofileq3JgCF/search.json.mozlz4", (void 0)))
+1623516408835	Marionette	INFO	Listening on port 51236
+1623516408951	Marionette	WARN	TLS certificate errors will be ignored for this session
+1623516412851	Marionette	INFO	Stopped listening on port 51236
+JavaScript error: resource://gre/modules/Sqlite.jsm, line 1030: Error: Sqlite.jsm has been shutdown. Cannot open connection to: /var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofileq3JgCF/protections.sqlite
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+

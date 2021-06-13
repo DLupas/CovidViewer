@@ -1,22 +1,27 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import datetime
-import csv
+import csv, urllib.request
 from covidviewer import daily_parser
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///entries.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///entries.sqlite3' #sets sql database
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #removes an error message
 db = SQLAlchemy(app)
 
 class Entry(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    date = db.Column(db.DateTime, default = datetime.datetime.now)
-    province = db.Column(db.String(100), default = '')
-    cases = db.Column(db.Integer, default = 0)
+    name = db.Column(db.String(100)) #100 is string length limit
+    region = db.Column(db.String(100))
+    date = db.Column(db.String(100))
+    #date = db.Column(db.DateTime)
+    cases_today = db.Column(db.Integer, default = 0)
+    cumulative_cases = db.Column(db.Integer, default = 0)
+    deaths_today = db.Column(db.Integer, default = 0)
+    cumulative_deaths = db.Column(db.Integer, default = 0)
     
     def __repr__(self):
-        return province
+        return name, cases
 
 class Hospitals(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -38,7 +43,8 @@ if (Hospitals.query.first() == None):
         db.session.commit()
     csv_file.close()
 
+
 from covidviewer import routes
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) #debug reloads the server when changes are made 
