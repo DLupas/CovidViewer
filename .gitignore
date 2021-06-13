@@ -11,3 +11,4 @@ env*
 .pytest_cache/
 .vscode
 .sqlite3
+.log

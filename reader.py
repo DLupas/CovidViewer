@@ -7,8 +7,10 @@ for line in response.readlines():
     lines.append(line.decode())
 csv_file = csv.reader(lines)
 
+f = open("printout.txt", "w")
 for row in csv_file:
-    print(row)
+    if row[1] != "Not Reported":
+        f.write(str(row) + "\n")
 '''
 data = response.read()
 csv_file = csv.reader(data)

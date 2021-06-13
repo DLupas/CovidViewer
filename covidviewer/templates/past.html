@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% for data in daily_data %}
+{% for entry in entries %}
 <div>
-    <p>{{ data }}</p>
+    <p>{{ entry }}</p>
 </div>
 {% endfor %}
 {% endblock %}

@@ -1,4 +1,4 @@
-from covidviewer import app, db, Entry, Hospitals
+from covidviewer import app, db, PastData, Hospitals
 from covidviewer import daily_parser
 from flask import render_template, request, make_response
 
@@ -21,7 +21,12 @@ def daily():
     
 @app.route("/past")
 def past():
-    return render_template('past.html')
+    printout = []
+    data = PastData.query.all() #query sql database 
+    for entry in data:
+        new_line = entry.name + ", " + entry.region + ", " + entry.date + ", " + str(entry.cases_today) + ", " + str(entry.cumulative_cases) + ", " + str(entry.deaths_today) + ", " + str(entry.cumulative_deaths)
+        printout.append(new_line)
+    return render_template('past.html', entries=printout)
 
 @app.route("/hospitals")
 def hospitals():
