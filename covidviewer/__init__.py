@@ -48,19 +48,23 @@ if (Hospitals.query.first() == None):
     csv_file.close()
 
 #checks the date of the last update
-lastUpdated = ""
+lastUpdated = "01-01-2020" #date before any entries
 if PastData.query.first() != None:
     lastUpdated = PastData.query.order_by(PastData.id.desc()).first().date #orders by id, descending, takes only 1
 
 today = datetime.date.today()
 date_formatting_style = "%d-%m-%Y" #allows changing the formating style of the date
-str_today = today.strftime(date_formatting_style) #strftime reformates datetime object and converts to string
+#.strptime turns a properly formatted string eg. 06-06-2021 into a datetime object
+lastUpdated = datetime.datetime.strptime(lastUpdated, date_formatting_style)
+
+#not needed, since you can compare datetime objects 
+#str_today = today.strftime(date_formatting_style) #strftime reformates datetime object and converts to string
 print(lastUpdated)
 
-if lastUpdated != str_today: #if the database has not been updated in the last day
-    print("updating")
-    #populate the past database with information, only update what is not new
+if lastUpdated < datetime.datetime.today(): #if the csv file has been updated since the database last was updated
+    #populate the past database with information, only update with what is new
     #using data from https://opencovid.ca
+    #2 seperate csv files must be opened seperately 
     cases_database_url = "https://raw.githubusercontent.com/ccodwg/Covid19Canada/master/timeseries_hr/cases_timeseries_hr.csv"
     deaths_database_url = "https://raw.githubusercontent.com/ccodwg/Covid19Canada/master/timeseries_hr/mortality_timeseries_hr.csv"
     cases_response = urllib.request.urlopen(cases_database_url)
@@ -70,7 +74,8 @@ if lastUpdated != str_today: #if the database has not been updated in the last d
     cases_discard = cases_response.readline() #discard first line as it is the column names
     for line in cases_response.readlines():
         #turn binary into string
-        cases_lines.append(line.decode())
+        new_line = line.decode()
+        cases_lines.append(new_line)
     cases_csv_file = csv.reader(cases_lines)
 
     #since there are 2 csv files to read, repeat the process
@@ -82,16 +87,16 @@ if lastUpdated != str_today: #if the database has not been updated in the last d
 
     #turn into list instead of csv.reader object
     deaths_by_row = []
-    for line in deaths_csv_file:
+    for line in deaths_csv_file: 
         deaths_by_row.append(line)
 
     deaths_itterator = 0 #there are a different number of lines in the deaths csv file
     #because deaths start in March instead of January so this is used to match the lines up together
     for row in cases_csv_file:
         #there are some "Not Reported" entries that need to be filtered out
-        #checks the database to see if there are any entries with the same date
+        #turns the date of the entry into an datetime object, then compares it with the date last updated to see if it's recent
         #new entries will not in order with entries from the same region, but when querying the database shouldn't matter
-        if row[1] != "Not Reported" and PastData.query.filter_by(date=row[2]).first() == None: #row[2] is the date
+        if row[1] != "Not Reported" and datetime.datetime.strptime(row[2], date_formatting_style) > lastUpdated:
             deaths_today = 0 #default for these variables is 0
             cumulative_deaths = 0
             #province, region and date must match up 
