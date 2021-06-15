@@ -3,8 +3,13 @@
     <head>
         <title>COVID Viewer</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial scale=1">
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=1">
+        <link rel="stylesheet" type= "text/css" href="static/style.css">
+        <script type="text/javascript" src="static/chartmaking.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>        
+        
+        
         <script type="text/javascript">
             google.charts.load('current', {
                 'packages':['geochart'],
@@ -41,6 +46,7 @@
                 chart.draw(data, options);
             };
         </script>
+
     </head>
     <body>
         <div>
@@ -49,6 +55,12 @@
             <a href="/past">Past</a>
             <a href="/hospitals">Hospitals</a>
             {% block content %}{% endblock %}
+        </div>
+        <div class="container">
+            <h1>Test Graph</h1>
+            <div>
+                <canvas id="canvas"></canvas>
+            </div>
         </div>
     </body>
 </html>
