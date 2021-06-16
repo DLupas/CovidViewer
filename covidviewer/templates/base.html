@@ -35,7 +35,6 @@
                 ['CA-NU', 236],
                 ['CA-SK', 536],
                 ]);
-
                 var options = {
                 region: 'CA', // Canada
                 resolution: 'provinces',
@@ -73,21 +72,24 @@
                     var deaths = data1.covid.map(function(elem) {
                         return elem.deaths;
                     });
+                    var testsTaken = data1.covid.map(function(elem) {
+                        return elem.testsTaken;
+                    });
                     var data = new google.visualization.arrayToDataTable([
-                    ['Province','Cases','Deaths'],
-                    [province[0], cases[0], deaths[0]],
-                    [province[1], cases[1], deaths[1]],
-                    [province[2], cases[2], deaths[2]],
-                    [province[3], cases[3], deaths[3]],
-                    [province[4], cases[4], deaths[4]],
-                    [province[5], cases[5], deaths[5]],
-                    [province[6], cases[6], deaths[6]],
-                    [province[7], cases[7], deaths[7]],
-                    [province[8], cases[8], deaths[8]],
-                    [province[9], cases[9], deaths[9]],
-                    [province[10], cases[10], deaths[10]],
-                    [province[11], cases[11], deaths[11]],
-                    [province[12], cases[12], deaths[12]],
+                    ['Province','Cases','Deaths', 'Tests taken'],
+                    [province[0], cases[0], deaths[0], testsTaken[0]],
+                    [province[1], cases[1], deaths[1], testsTaken[1]],
+                    [province[2], cases[2], deaths[2], testsTaken[2]],
+                    [province[3], cases[3], deaths[3], testsTaken[3]],
+                    [province[4], cases[4], deaths[4], testsTaken[4]],
+                    [province[5], cases[5], deaths[5], testsTaken[5]],
+                    [province[6], cases[6], deaths[6], testsTaken[6]],
+                    [province[7], cases[7], deaths[7], testsTaken[7]],
+                    [province[8], cases[8], deaths[8], testsTaken[8]],
+                    [province[9], cases[9], deaths[9], testsTaken[9]],
+                    [province[10], cases[10], deaths[10], testsTaken[10]],
+                    [province[11], cases[11], deaths[11], testsTaken[11]],
+                    [province[12], cases[12], deaths[12], testsTaken[12]]
                     ]);
                     var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
                     var options = {

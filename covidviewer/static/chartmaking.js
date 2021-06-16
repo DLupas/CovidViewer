@@ -16,6 +16,7 @@ xmlHttp.onreadystatechange = function() {
             return elem.deaths;
         });
         var ctx = document.getElementById('canvas').getContext('2d');
+        Chart.defaults.elements.point.radius = 0;
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -26,6 +27,7 @@ xmlHttp.onreadystatechange = function() {
                     backgroundColor: 'transparent',
                     borderColor:'blue' ,
                     borderWidth: 4
+
                 },
                 {
                     label: '# of Deaths',
@@ -35,7 +37,9 @@ xmlHttp.onreadystatechange = function() {
                     borderWidth: 4
                 }]
             },
+            
             options: {
+                
                 scales: {
                     y: {
                         beginAtZero: true
