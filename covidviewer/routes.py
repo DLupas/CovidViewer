@@ -2,6 +2,8 @@ from covidviewer import app, db, PastData, Hospitals
 from covidviewer import daily_parser
 from flask import render_template, request, make_response
 import json
+import datetime
+import ast
 
 @app.route("/") #homepage
 def index():
@@ -15,6 +17,7 @@ def daily():
         res = make_response(render_template('daily.html', daily_data=daily_data))
         res.set_cookie("daily_data", " ".join(daily_data), max_age=60*60*24) #cookie will last 1 day
         return res
+    
     else:
         daily_data = request.cookies.get("daily_data") #retrieve cookie
         daily_data = daily_data.split(" ") #converts string to list
@@ -23,8 +26,13 @@ def daily():
 @app.route("/past", methods=['GET', 'POST']) #past data page
 def past():
     chosenValue = None
+    dateRange = None
+    date_formatting_style = "%d-%m-%Y" #used later to convert from one style to another
+    
     if request.method == 'POST':
         chosenValue = request.form.get('region', None)
+        dateRange = request.form.get('date_picker', None) 
+    print(dateRange)
     printout = []
 
     #read health regions from file
@@ -45,6 +53,7 @@ def past():
         search_for_region = chosenValue[-1].strip("\n") #these characters interfere with the result and must be removed
         search_for_region = search_for_region.strip("\r")
         data = PastData.query.filter_by(region=search_for_region) #chosenValue[1] is the region
+        
         for entry in data: #creates a list of all the health regions
             #print(entry)
             '''
@@ -53,17 +62,42 @@ def past():
                 regions.append(new_region)
             '''
             if entry.name == chosenValue[0]: #health region names are not unique, match up with province
-                new_line = [entry.name, entry.region, entry.date, str(entry.cases_today), str(entry.cumulative_cases), str(entry.deaths_today), str(entry.cumulative_deaths)]
-                printout.append(new_line)
+                if dateRange: #returns all values if no daterange
+                    dateRange = eval(str(dateRange)) #eval turns string that looks like dict into dict
+                    
+                    #convert start and end dates returned from picker to correct format
+                    #strptime converts str to datetime object, strf converts datetime to str
+                    #convert to datetime object, then convert to string in proper format, then convert back to datetime
+                    start_date = datetime.datetime.strptime(dateRange["start"], "%Y-%m-%d")
+                    start_date = datetime.datetime.strftime(start_date, date_formatting_style)
+                    start_date = datetime.datetime.strptime(start_date, date_formatting_style)
+                    
+                    end_date = datetime.datetime.strptime(dateRange["end"], "%Y-%m-%d")
+                    end_date = datetime.datetime.strftime(end_date, date_formatting_style)
+                    end_date = datetime.datetime.strptime(end_date, date_formatting_style)
+                
+                else:
+                    #pick values so that all database entries are included
+                    start_date = datetime.datetime.strptime("01-01-2020", date_formatting_style) #date before any entries
+                    end_date = datetime.datetime.today() + datetime.timedelta(days=1) #=tomrrow
+
+                entry_date = datetime.datetime.strptime(entry.date, date_formatting_style)
+                if start_date <= entry_date <= end_date: #if date within boundaries
+                    new_line = [entry.name, entry.region, entry.date, str(entry.cases_today), str(entry.cumulative_cases), str(entry.deaths_today), str(entry.cumulative_deaths)]
+                    printout.append(new_line)
+        
         with open("covidviewer/static/pastdata.json", "w") as data_file:
             to_file = {} #the dictionary passed to json
             body_values = [] #the list inside the dictionary
+            
             for row in printout:
                 new_line = {"date":row[2], "cases":row[3], "deaths":row[5]}
                 body_values.append(new_line)
+            
             to_file["covid"] = body_values
             to_file = json.dumps(to_file)
             data_file.write(to_file)
+        
         data_file.close()
     return render_template('past.html', entries=printout, regions=regions, chosenValue=chosenValue)
 
@@ -89,9 +123,11 @@ def hospitals():
     ]
     '''
     hospitals = Hospitals.query.all() #query sql database 
+    
     for h in hospitals:
         new_line = h.province + ": " + str(h.number_hospitals)
         hospitals_by_province.append(new_line)
+    
     return render_template('hospitals.html', hospitals=hospitals_by_province)
 
 '''
