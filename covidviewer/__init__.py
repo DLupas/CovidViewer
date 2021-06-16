@@ -112,6 +112,10 @@ if lastUpdated < datetime.datetime.today(): #if the csv file has been updated si
             db.session.add(new_entry)
     db.session.commit()
 
+with open('covidviewer/static/pastdata.json', 'w') as past_data:
+    past_data.write("") 
+past_data.close()   
+
 #bottom import avoids circular import error
 from covidviewer import routes
 

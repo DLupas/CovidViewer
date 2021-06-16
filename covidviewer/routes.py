@@ -44,7 +44,6 @@ def past():
 
         search_for_region = chosenValue[-1].strip("\n") #these characters interfere with the result and must be removed
         search_for_region = search_for_region.strip("\r")
-        print(search_for_region)
         data = PastData.query.filter_by(region=search_for_region) #chosenValue[1] is the region
         for entry in data: #creates a list of all the health regions
             #print(entry)
@@ -56,8 +55,7 @@ def past():
             if entry.name == chosenValue[0]: #health region names are not unique, match up with province
                 new_line = [entry.name, entry.region, entry.date, str(entry.cases_today), str(entry.cumulative_cases), str(entry.deaths_today), str(entry.cumulative_deaths)]
                 printout.append(new_line)
-        print(printout)
-        with open("covidviewer/static/data.json", "w") as data_file:
+        with open("covidviewer/static/pastdata.json", "w") as data_file:
             to_file = {} #the dictionary passed to json
             body_values = [] #the list inside the dictionary
             for row in printout:
