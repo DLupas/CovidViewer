@@ -1,5 +1,5 @@
 var xmlHttp = new XMLHttpRequest();
-var url = "static/data.json";
+var url = "static/pastdata.json";
 xmlHttp.open("GET", url, true);
 xmlHttp.send();
 xmlHttp.onreadystatechange = function() {
