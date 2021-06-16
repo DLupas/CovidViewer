@@ -20,6 +20,7 @@ class PastData(db.Model):
     deaths_today = db.Column(db.Integer, default = 0)
     cumulative_deaths = db.Column(db.Integer, default = 0)
     
+    #defines how the entry is outputted when you print it to console among other things
     '''
     def __repr__(self):
         return self.name, self.cases 
@@ -59,7 +60,7 @@ lastUpdated = datetime.datetime.strptime(lastUpdated, date_formatting_style)
 
 #not needed, since you can compare datetime objects 
 #str_today = today.strftime(date_formatting_style) #strftime reformates datetime object and converts to string
-print(lastUpdated)
+#print(lastUpdated)
 
 if lastUpdated < datetime.datetime.today(): #if the csv file has been updated since the database last was updated
     #populate the past database with information, only update with what is new
