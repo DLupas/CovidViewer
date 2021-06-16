@@ -43,6 +43,5 @@ xmlHttp.onreadystatechange = function() {
                 }
             }
         });
-        //console.log(dates);
     }
 }

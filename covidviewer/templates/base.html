@@ -6,8 +6,10 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=1">
         <link rel="stylesheet" type= "text/css" href="static/style.css">
         <script type="text/javascript" src="static/chartmaking.js"></script>
+        <script type="text/javascript" src="static/dailychartmaking.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>        
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
+        
         
         
         <script type="text/javascript">
@@ -16,7 +18,6 @@
                 'mapsApiKey': 'AIzaSyAZusPDjaIShqJ9Sz1os5tUzflBo_zppxQ'
             });
             google.charts.setOnLoadCallback(drawRegionsMap);
-
             function drawRegionsMap() {
                 var data = google.visualization.arrayToDataTable([
                 ['Province',   'Hospitals'],
@@ -45,8 +46,61 @@
                 var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
                 chart.draw(data, options);
             };
+            google.charts.load('current', { 'packages':['geochart'], 'mapsApiKey': 'AIzaSyAZusPDjaIShqJ9Sz1os5tUzflBo_zppxQ'});
+            google.charts.setOnLoadCallback(drawDailyCasesMap);
+            
+            function drawDailyCasesMap() {
+                function readTextFile(file, callback) {
+                    var rawFile = new XMLHttpRequest();
+                    rawFile.overrideMimeType("application/json");
+                    rawFile.open("GET", file, true);
+                    rawFile.onreadystatechange = function() {
+                        if (rawFile.readyState === 4 && rawFile.status == "200") {
+                            callback(rawFile.responseText);
+                        }
+                    }
+                    rawFile.send(null);
+                }
+                readTextFile("static/dailydata.json", function(text){
+                    var data1 = JSON.parse(text);
+                    //console.log(data1);
+                    var province = data1.covid.map(function(elem) {
+                        return elem.province;
+                    });
+                    var cases = data1.covid.map(function(elem) {
+                        return elem.cases;
+                    });
+                    var deaths = data1.covid.map(function(elem) {
+                        return elem.deaths;
+                    });
+                    var data = new google.visualization.arrayToDataTable([
+                    ['Province','Cases','Deaths'],
+                    [province[0], cases[0], deaths[0]],
+                    [province[1], cases[1], deaths[1]],
+                    [province[2], cases[2], deaths[2]],
+                    [province[3], cases[3], deaths[3]],
+                    [province[4], cases[4], deaths[4]],
+                    [province[5], cases[5], deaths[5]],
+                    [province[6], cases[6], deaths[6]],
+                    [province[7], cases[7], deaths[7]],
+                    [province[8], cases[8], deaths[8]],
+                    [province[9], cases[9], deaths[9]],
+                    [province[10], cases[10], deaths[10]],
+                    [province[11], cases[11], deaths[11]],
+                    [province[12], cases[12], deaths[12]],
+                    ]);
+                    var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+                    var options = {
+                        region: 'CA', // Canada
+                        resolution: 'provinces',
+                        colorAxis: {colors: ['#35de35', '#1c8c1c']}, //https://htmlcolorcodes.com/colors/shades-of-red/
+                        backgroundColor: '#81d4fa',
+                    };
+                    chart.draw(data, options);
+                });
+                    
+            };
         </script>
-
     </head>
     <body>
         <div>
@@ -55,12 +109,6 @@
             <a href="/past">Past</a>
             <a href="/hospitals">Hospitals</a>
             {% block content %}{% endblock %}
-        </div>
-        <div class="container">
-            <h1>Test Graph</h1>
-            <div>
-                <canvas id="canvas"></canvas>
-            </div>
         </div>
     </body>
 </html>
