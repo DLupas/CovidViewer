@@ -7,11 +7,21 @@
         <canvas id="canvas"></canvas>
     </div>
 </div>
+<div>
+    <form action="/past" method="POST">
+        <select name="region" id="region">
+            {% for region in regions %}
+            <option value="{{ region }}">{{ region }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<!--<p> {{ chosenValue }}</p>-->
 {% for entry in entries %}
 <div>
     <p>{{ entry }}</p>
     
 </div>
-
 {% endfor %}
 {% endblock %}

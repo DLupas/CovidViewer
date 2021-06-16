@@ -1,0 +1,91 @@
+Alberta:Calgary
+Alberta:Central
+Alberta:Edmonton
+Alberta:North
+Alberta:South
+BC:Fraser
+BC:Interior
+BC:Island
+BC:Northern
+BC:Vancouver Costal
+Manitoba:Interlake-Eastern
+Manitoba:Northern
+Manitoba:Prairie Mountain
+Manitoba:Southern Health
+Manitoba:Winnipeg
+New Brunswick:Zone 1 (Moncton area)
+New Brunswick:Zone 2 (Saint John area)
+New Brunswick:Zone 3 (Fredericton area)
+New Brunswick:Zone 4 (Edmundston area)
+New Brunswick:Zone 5 (Campbellton area)
+New Brunswick:Zone 6 (Bathurst area)
+New Brunswick:Zone 7 (Miramichi area)
+NL:Central
+NL:Eastern
+NL:Labrador-Grenfell
+NL:Western
+Nova Scotia-Zone 1:Western
+Nova Scotia-Zone 2:Northern
+Nova Scotia-Zone 3:Eastern
+Nova Scotia-Zone 4:Central
+Nunavut:Nunavut
+NWT:NWT
+Ontario:Algoma
+Ontario:Brant
+Ontario:Chatham-Kent
+Ontario:Durham
+Ontario:Eastern
+Ontario:Grey Bruce
+Ontario:Haldimand-Norfolk
+Ontario:Haliburton Kawartha Pineridge
+Ontario:Halton
+Ontario:Hamilton
+Ontario:Hastings Prince Edward
+Ontario:Huron Perth
+Ontario:Kingston Frontenac Lennox & Addington
+Ontario:Lambton
+Ontario:Leeds Grenville and Lanark
+Ontario:Middlesex-London
+Ontario:Niagara
+Ontario:North Bay Parry Sound
+Ontario:Northwestern
+Ontario:Ottawa
+Ontario:Peel
+Ontario:Peterborough
+Ontario:Porcupine
+Ontario:Renfrew
+Ontario:Simcoe Muskoka
+Ontario:Southwestern
+Ontario:Sudbury
+Ontario:Thunder Bay
+Ontario:Timiskaming
+Ontario:Toronto
+Ontario:Waterloo
+Ontario:Wellington Dufferin Guelph
+Ontario:Windsor-Essex
+Ontario:York
+PEI:Prince Edward Island
+Quebec:Abitibi-Témiscamingue
+Quebec:Bas-Saint-Laurent
+Quebec:Capitale-Nationale
+Quebec:Chaudière-Appalaches
+Quebec:Côte-Nord
+Quebec:Estrie
+Quebec:Gaspésie-Îles-de-la-Madeleine
+Quebec:Lanaudière
+Quebec:Laurentides
+Quebec:Mauricie
+Quebec:Montérégie
+Quebec:Montréal
+Quebec:Nord-du-Québec
+Quebec:Nunavik
+Quebec:Outaouais
+Quebec:Saguenay
+Quebec:Terres-Cries-de-la-Baie-James
+Saskatchewan:Central
+Saskatchewan:Far North
+Saskatchewan:North
+Saskatchewan:Regina
+Saskatchewan:Saskatoon
+Saskatchewan:South
+Yukon:Yukon

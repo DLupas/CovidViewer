@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <form action="/test" method="POST">
+        <input type="text" id="hello" name="hello">
+        <select name="region" id="region">
+            <option value="Alberta">Alberta</option>
+            <option value="Ontario">Ontario</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<p>{{ chosenValue }}</p>
+{% endblock %}
