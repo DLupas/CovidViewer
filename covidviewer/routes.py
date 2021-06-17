@@ -146,6 +146,7 @@ def hospitals():
     for h in hospitals:
         new_line = h.province + ": " + str(h.number_hospitals)
         hospitals_by_province.append(new_line)
+<<<<<<< Updated upstream
     
     return render_template('hospitals.html', hospitals=hospitals_by_province)
 
@@ -157,3 +158,71 @@ def test():
         chosenValue = request.form.get('region', None)
     res = render_template('test.html', chosenValue=chosenValue)
     return res
+=======
+    return render_template('hospitals.html', hospitals=hospitals_by_province)
+
+
+import json
+f = open("data1.json", "r")
+y = json.loads(f.read())
+
+
+x = { "province/hospitals" :
+    [
+        {
+            "province" : "Ontario",
+            "hospitals": 360
+        },
+        {
+            "province" : "Newfoundland and Labrador",
+            "hospitals": 3
+        },
+        {
+            "province" : "Prince Edward Island",
+            "hospitals": 23
+        },
+        {
+            "province" : "Nova Scotia",
+            "hospitals": 36
+        },
+        {
+            "province" : "New  Brunswick",
+            "hospitals": 6
+        },
+        {
+            "province" : "Alberta",
+            "hospitals": 5
+        },
+        {
+            "province" : "Quebec",
+            "hospitals": 230
+        },
+        {
+            "province" : "British Columbia",
+            "hospitals": 7
+        },
+        {
+            "province" : "Yukon",
+            "hospitals": 82
+        },
+        {
+            "province" : "Manitoba",
+            "hospitals": 33
+        },
+        {
+            "province" : "Northwest Territories",
+            "hospitals": 136
+        },
+        {
+            "province" : "Nunavut",
+            "hospitals": 236
+        },
+        {
+            "province" : "Saskatchewan",
+            "hospitals": 536
+        }
+    ]
+}
+y = json.dumps(x)
+print(y["province", "hospitals"])
+>>>>>>> Stashed changes

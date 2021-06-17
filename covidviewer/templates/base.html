@@ -35,6 +35,11 @@
                 ['CA-NU', 236],
                 ['CA-SK', 536],
                 ]);
+                fetch("data1.json")
+                .then(response => response.json())
+                .then(data => {
+                    consol.log(data)
+                })
 
                 var options = {
                 region: 'CA', // Canada

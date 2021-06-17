@@ -1,0 +1,56 @@
+{ "provinces/hospitals" :
+    [
+        {
+            "province" : "Ontario",
+            "hospitals": 360
+        },
+        {
+            "province" : "Newfoundland and Labrador",
+            "hospitals": 3
+        },
+        {
+            "province" : "Prince Edward Island",
+            "hospitals": 23
+        },
+        {
+            "province" : "Nova Scotia",
+            "hospitals": 36
+        },
+        {
+            "province" : "New  Brunswick",
+            "hospitals": 6
+        },
+        {
+            "province" : "Alberta",
+            "hospitals": 5
+        },
+        {
+            "province" : "Quebec",
+            "hospitals": 230
+        },
+        {
+            "province" : "British Columbia",
+            "hospitals": 7
+        },
+        {
+            "province" : "Yukon",
+            "hospitals": 82
+        },
+        {
+            "province" : "Manitoba",
+            "hospitals": 33
+        },
+        {
+            "province" : "Northwest Territories",
+            "hospitals": 136
+        },
+        {
+            "province" : "Nunavut",
+            "hospitals": 236
+        },
+        {
+            "province" : "Saskatchewan",
+            "hospitals": 536
+        }
+    ]
+}
