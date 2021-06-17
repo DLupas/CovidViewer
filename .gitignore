@@ -12,3 +12,4 @@ env*
 .vscode
 .sqlite3
 .log
+node_modules/

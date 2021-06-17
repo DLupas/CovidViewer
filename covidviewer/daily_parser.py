@@ -23,7 +23,10 @@ def extract():
     for trTag in bodyContainer.find_all("tr"):
         tdTag = trTag.find_all("td")
         for data in tdTag:
-            results.append(data.text) #.text strips tags 
+            if data.text == "N/A": #turn N/A into 0
+                results.append("0")
+            else:
+                results.append(data.text) #.text strips tags 
 
     driver.close()
     return results
