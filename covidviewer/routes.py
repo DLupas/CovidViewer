@@ -3,7 +3,6 @@ from covidviewer import daily_parser
 from flask import render_template, request, make_response
 import json
 import datetime
-import ast
 
 @app.route("/") #homepage
 def index():
@@ -11,17 +10,37 @@ def index():
 
 @app.route("/daily") #today's data page
 def daily():
+
     #this page will take a while to load the first time because it creates a web connection to the page
     if not request.cookies.get("daily_data"):
         daily_data = daily_parser.extract() #call extract function from daily_parser file
         res = make_response(render_template('daily.html', daily_data=daily_data))
         res.set_cookie("daily_data", " ".join(daily_data), max_age=60*60*24) #cookie will last 1 day
-        return res
     
     else:
         daily_data = request.cookies.get("daily_data") #retrieve cookie
         daily_data = daily_data.split(" ") #converts string to list
-        return render_template('daily.html', daily_data=daily_data)
+        res = render_template('daily.html', daily_data=daily_data)
+
+    #list of province codes
+    provinces = {"British Columbia": "CA-BC", "Alberta":"CA-AB", "Saskatchewan":"CA-SK", "Manitoba":"CA-MB", "Ontario":"CA-ON", "Quebec":"CA-QC", "Newfoundland and Labrador": "CA-NL", "New Brunswick": "CA-NB", "Nova Scotia": "CA-NS", "Prince Edward Island": "CA-PE", "Yukon": "CA-YT", "Northwest Territorie": "CA-NT", "Nunavut": "CA-NU"}
+    '''
+    with open("covidviewer/static/dailydata.json", "w") as data_file:
+            to_file = {} #the dictionary passed to json
+            body_values = [] #the list inside the dictionary
+            
+            for i in range(0, len(daily_data), 4):
+                
+                new_line = {"province":provinces[daily_data[i]], "cases":daily_data[i + 1], "deaths":daily_data[i + 2], "testsTaken":daily_data[i + 3]}
+                body_values.append(new_line)
+            
+            to_file["covid"] = body_values
+            to_file = json.dumps(to_file)
+            data_file.write(to_file)
+        
+    data_file.close()
+    '''
+    return res
     
 @app.route("/past", methods=['GET', 'POST']) #past data page
 def past():
@@ -130,11 +149,11 @@ def hospitals():
     
     return render_template('hospitals.html', hospitals=hospitals_by_province)
 
-'''
+
 @app.route("/test", methods=['GET', 'POST']) #test page for html forms
 def test():
     chosenValue = ""
     if request.method == 'POST':
         chosenValue = request.form.get('region', None)
-    return render_template('test.html', chosenValue=chosenValue)
-'''
+    res = render_template('test.html', chosenValue=chosenValue)
+    return res
