@@ -81,3 +81,26 @@ JavaScript error: resource://gre/modules/Sqlite.jsm, line 1030: Error: Sqlite.js
 
 ###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
 
+1623890626010	geckodriver	INFO	Listening on 127.0.0.1:57543
+1623890627028	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofilecOiUog"
+1623890627799	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofilecOiUog/search.json.mozlz4", (void 0)))
+1623890629810	Marionette	INFO	Listening on port 57550
+1623890629923	Marionette	WARN	TLS certificate errors will be ignored for this session
+1623890634176	Marionette	INFO	Stopped listening on port 57550
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1623890665199	geckodriver	INFO	Listening on 127.0.0.1:57659
+1623890666211	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofilegSwWoM"
+1623890666653	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /var/folders/gc/86p9r7zj2hb2w23kq9wnb2lh0000gp/T/rust_mozprofilegSwWoM/search.json.mozlz4", (void 0)))
+1623890668399	Marionette	INFO	Listening on port 57666
+1623890668496	Marionette	WARN	TLS certificate errors will be ignored for this session
+1623890670168	Marionette	INFO	Stopped listening on port 57666
+JavaScript error: resource://gre/modules/AsyncShutdown.jsm, line 575: NotFoundError: No such JSWindowActor 'MarionetteEvents'
+JavaScript error: resource:///modules/FaviconLoader.jsm, line 596: InvalidStateError: JSWindowActorChild.sendAsyncMessage: JSWindowActorChild cannot send at the moment
+JavaScript error: resource:///modules/FaviconLoader.jsm, line 596: InvalidStateError: JSWindowActorChild.sendAsyncMessage: JSWindowActorChild cannot send at the moment
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+

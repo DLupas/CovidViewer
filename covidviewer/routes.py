@@ -19,19 +19,22 @@ def daily():
     
     else:
         daily_data = request.cookies.get("daily_data") #retrieve cookie
-        daily_data = daily_data.split(" ") #converts string to list
+        daily_data = daily_data.split(",") #converts string to list
+        print(daily_data)
         res = render_template('daily.html', daily_data=daily_data)
 
     #list of province codes
-    provinces = {"British Columbia": "CA-BC", "Alberta":"CA-AB", "Saskatchewan":"CA-SK", "Manitoba":"CA-MB", "Ontario":"CA-ON", "Quebec":"CA-QC", "Newfoundland and Labrador": "CA-NL", "New Brunswick": "CA-NB", "Nova Scotia": "CA-NS", "Prince Edward Island": "CA-PE", "Yukon": "CA-YT", "Northwest Territorie": "CA-NT", "Nunavut": "CA-NU"}
-    '''
+    provinces = {"British Columbia": "CA-BC", "Alberta":"CA-AB", "Saskatchewan":"CA-SK", "Manitoba":"CA-MB", "Ontario":"CA-ON", "Quebec":"CA-QC", "Newfoundland and Labrador": "CA-NL", "New Brunswick": "CA-NB", "Nova Scotia": "CA-NS", "Prince Edward Island": "CA-PE", "Yukon": "CA-YT", "Northwest Territories": "CA-NT", "Nunavut": "CA-NU"}
+    
     with open("covidviewer/static/dailydata.json", "w") as data_file:
             to_file = {} #the dictionary passed to json
             body_values = [] #the list inside the dictionary
+            #first 4 entries relate to Canada wide, which doesn't show up on the map
+            daily_data = daily_data[4:] 
             
             for i in range(0, len(daily_data), 4):
                 
-                new_line = {"province":provinces[daily_data[i]], "cases":daily_data[i + 1], "deaths":daily_data[i + 2], "testsTaken":daily_data[i + 3]}
+                new_line = {"province":provinces[daily_data[i]], "cases":daily_data[i + 1], "deaths":daily_data[i + 2]}
                 body_values.append(new_line)
             
             to_file["covid"] = body_values
@@ -39,7 +42,7 @@ def daily():
             data_file.write(to_file)
         
     data_file.close()
-    '''
+    
     return res
     
 @app.route("/past", methods=['GET', 'POST']) #past data page
