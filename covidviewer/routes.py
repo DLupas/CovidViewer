@@ -12,37 +12,40 @@ def index():
 def daily():
 
     #this page will take a while to load the first time because it creates a web connection to the page
-    if not request.cookies.get("daily_data"):
-        daily_data = daily_parser.extract() #call extract function from daily_parser file
-        res = make_response(render_template('daily.html', daily_data=daily_data))
-        res.set_cookie("daily_data", " ".join(daily_data), max_age=60*60*24) #cookie will last 1 day
+    if not request.cookies.get("lastUpdated"):
+        #if there is no cookie, must update, so set lastUpdated to date before any entries
+        lastUpdated = datetime.datetime.strptime("00-01-01-2020", "%H-%d-%m-%Y")
     
     else:
-        daily_data = request.cookies.get("daily_data") #retrieve cookie
-        daily_data = daily_data.split(",") #converts string to list
-        print(daily_data)
-        res = render_template('daily.html', daily_data=daily_data)
+        lastUpdated = request.cookies.get("lastUpdated") #retrieve cookie
+        lastUpdated = datetime.datetime.strptime(lastUpdated, "%H-%d-%m-%Y")
 
-    #list of province codes
-    provinces = {"British Columbia": "CA-BC", "Alberta":"CA-AB", "Saskatchewan":"CA-SK", "Manitoba":"CA-MB", "Ontario":"CA-ON", "Quebec":"CA-QC", "Newfoundland and Labrador": "CA-NL", "New Brunswick": "CA-NB", "Nova Scotia": "CA-NS", "Prince Edward Island": "CA-PE", "Yukon": "CA-YT", "Northwest Territories": "CA-NT", "Nunavut": "CA-NU"}
-    
-    with open("covidviewer/static/dailydata.json", "w") as data_file:
-            to_file = {} #the dictionary passed to json
-            body_values = [] #the list inside the dictionary
-            #first 4 entries relate to Canada wide, which doesn't show up on the map
-            daily_data = daily_data[4:] 
-            
-            for i in range(0, len(daily_data), 4):
-                
-                new_line = {"province":provinces[daily_data[i]], "cases":daily_data[i + 1], "deaths":daily_data[i + 2]}
-                body_values.append(new_line)
-            
-            to_file["covid"] = body_values
-            to_file = json.dumps(to_file)
-            data_file.write(to_file)
+    #if it has not been updated in the last 6 hours
+    if lastUpdated + datetime.timedelta(hours=6) < datetime.datetime.now():
+        daily_data = daily_parser.extract() #call extract function from daily_parser file
+        #dict of province codes
+        provinces = {"British Columbia": "CA-BC", "Alberta":"CA-AB", "Saskatchewan":"CA-SK", "Manitoba":"CA-MB", "Ontario":"CA-ON", "Quebec":"CA-QC", "Newfoundland and Labrador": "CA-NL", "New Brunswick": "CA-NB", "Nova Scotia": "CA-NS", "Prince Edward Island": "CA-PE", "Yukon": "CA-YT", "Northwest Territories": "CA-NT", "Nunavut": "CA-NU"}
         
-    data_file.close()
+        with open("covidviewer/static/dailydata.json", "w") as data_file:
+                to_file = {} #the dictionary passed to json
+                body_values = [] #the list inside the dictionary
+                #first 4 entries relate to Canada wide, which doesn't show up on the map
+                daily_data = daily_data[4:] 
+                
+                for i in range(0, len(daily_data), 4):
+                    
+                    new_line = {"province":provinces[daily_data[i]], "cases":int(daily_data[i + 1]), "deaths":int(daily_data[i + 2])}
+                    body_values.append(new_line)
+                
+                to_file["covid"] = body_values
+                to_file = json.dumps(to_file)
+                data_file.write(to_file)
+            
+        data_file.close()
+        lastUpdated = datetime.datetime.now()
     
+    res = make_response(render_template('daily.html'))
+    res.set_cookie("lastUpdated", datetime.datetime.strftime(lastUpdated, "%H-%d-%m-%Y"), max_age=60*60*24) #cookie will last 1 day
     return res
     
 @app.route("/past", methods=['GET', 'POST']) #past data page
@@ -65,9 +68,6 @@ def past():
     
     #printout only the results related to the search
     #add province searches and Canada wide searches
-    #add date selection
-    #json default nothing
-    
     if chosenValue:
         chosenValue = chosenValue.split(":") #splits into list of 2, province and region
         #query sql database

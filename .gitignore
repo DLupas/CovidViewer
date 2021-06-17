@@ -11,5 +11,5 @@ env*
 .pytest_cache/
 .vscode
 .sqlite3
-.log
+geckodriver.log
 node_modules/

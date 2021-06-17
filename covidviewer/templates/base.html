@@ -9,7 +9,18 @@
         <script type="text/javascript" src="static/dailychartmaking.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
-        
+
+        <!--Using the JQuery Date Range Picker module-->
+        <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
+        <link href="static/node_files/jquery.comiseo.daterangepicker.css" rel="stylesheet">
+        <script src="static/node_files/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="static/node_files/moment.min.js"></script>
+        <script src="static/node_files/jquery.comiseo.daterangepicker.js"></script>
+        <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+        <script>
+            $(function() { $("#date_picker").daterangepicker(); });
+        </script>
         
         
         <script type="text/javascript">
@@ -65,6 +76,8 @@
                     var data1 = JSON.parse(text);
                     //console.log(data1);
                     var province = data1.covid.map(function(elem) {
+                        // console.log(typeof elem.province);
+                        // console.log(elem.province);
                         return elem.province;
                     });
                     var cases = data1.covid.map(function(elem) {
@@ -75,6 +88,10 @@
                     });
                     var data = new google.visualization.arrayToDataTable([
                     ['Province','Cases','Deaths'],
+                    // ["CA-BC", 113, 4],
+                    // ["CA-AB", 153, 4],
+                    // ["CA-SK", 183, 2], 
+                    // ["CA-MB", 144, 7],
                     [province[0], cases[0], deaths[0]],
                     [province[1], cases[1], deaths[1]],
                     [province[2], cases[2], deaths[2]],
