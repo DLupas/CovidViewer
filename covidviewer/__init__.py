@@ -89,7 +89,8 @@ if lastUpdated < datetime.datetime.today(): #if the csv file has been updated si
     #turn into list instead of csv.reader object
     deaths_by_row = []
     for line in deaths_csv_file: 
-        deaths_by_row.append(line)
+        if line[1] != "Not Reported": #remove "Not Reported lines"
+            deaths_by_row.append(line)
 
     deaths_itterator = 0 #there are a different number of lines in the deaths csv file
     #because deaths start in March instead of January so this is used to match the lines up together
@@ -100,6 +101,7 @@ if lastUpdated < datetime.datetime.today(): #if the csv file has been updated si
         if row[1] != "Not Reported" and datetime.datetime.strptime(row[2], date_formatting_style) > lastUpdated:
             deaths_today = 0 #default for these variables is 0
             cumulative_deaths = 0
+            
             #province, region and date must match up 
             if deaths_by_row[deaths_itterator][0] == row[0] and deaths_by_row[deaths_itterator][1] == row[1] and deaths_by_row[deaths_itterator][2] == row[2]:
                 deaths_today = deaths_by_row[deaths_itterator][3]

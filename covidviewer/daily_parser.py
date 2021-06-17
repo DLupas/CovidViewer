@@ -25,6 +25,9 @@ def extract():
         for data in tdTag:
             if data.text == "N/A": #turn N/A into 0
                 results.append("0")
+            elif "," in data.text: 
+                removeComma = data.text.replace(",", "")
+                results.append(removeComma)
             else:
                 results.append(data.text) #.text strips tags 
 
