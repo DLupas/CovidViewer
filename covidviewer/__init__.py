@@ -4,12 +4,12 @@ import datetime
 import csv, urllib.request
 from covidviewer import daily_parser
 
-app = Flask(__name__)
+app = Flask(__name__) #create instance of flask class
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///entries.sqlite3' #sets sql database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #removes an error message
-db = SQLAlchemy(app)
+db = SQLAlchemy(app) #create SQLAlchemy database
 
-class PastData(db.Model):
+class PastData(db.Model): #model for the past data on the past page
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100)) #100 is string length limit
     region = db.Column(db.String(100))
@@ -26,7 +26,7 @@ class PastData(db.Model):
         return self.name, self.cases 
     '''
 
-class Hospitals(db.Model):
+class Hospitals(db.Model): #model for the daily data on the today page
     id = db.Column(db.Integer, primary_key = True)
     province = db.Column(db.String(100))
     number_hospitals = db.Column(db.Integer, default = 0)
@@ -40,6 +40,7 @@ class Hospitals(db.Model):
 db.create_all()
 #this prevents the table from filling up again with the data every time the server is initialized
 if (Hospitals.query.first() == None): 
+    #read hospitals data from csv
     with open('covidviewer/canada_hospitals_provinces.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
@@ -89,7 +90,8 @@ if lastUpdated < datetime.datetime.today(): #if the csv file has been updated si
     #turn into list instead of csv.reader object
     deaths_by_row = []
     for line in deaths_csv_file: 
-        deaths_by_row.append(line)
+        if line[1] != "Not Reported": #remove "Not Reported" lines
+            deaths_by_row.append(line)
 
     deaths_itterator = 0 #there are a different number of lines in the deaths csv file
     #because deaths start in March instead of January so this is used to match the lines up together
@@ -100,6 +102,7 @@ if lastUpdated < datetime.datetime.today(): #if the csv file has been updated si
         if row[1] != "Not Reported" and datetime.datetime.strptime(row[2], date_formatting_style) > lastUpdated:
             deaths_today = 0 #default for these variables is 0
             cumulative_deaths = 0
+            
             #province, region and date must match up 
             if deaths_by_row[deaths_itterator][0] == row[0] and deaths_by_row[deaths_itterator][1] == row[1] and deaths_by_row[deaths_itterator][2] == row[2]:
                 deaths_today = deaths_by_row[deaths_itterator][3]
@@ -112,6 +115,7 @@ if lastUpdated < datetime.datetime.today(): #if the csv file has been updated si
             db.session.add(new_entry)
     db.session.commit()
 
+#wipe out data so the past page is blank
 with open('covidviewer/static/pastdata.json', 'w') as past_data:
     past_data.write("") 
 past_data.close()   

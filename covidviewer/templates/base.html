@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>COVID Viewer</title>
+        <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=1">
         <link rel="stylesheet" type= "text/css" href="static/style.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">  
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="static/chartmaking.js"></script>
         <script type="text/javascript" src="static/dailychartmaking.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
-        <script type="text/javascript" src="static/data1.json"></script> 
+
+        <!--Using the JQuery Date Range Picker module-->
+        <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
+        <link href="static/node_files/jquery.comiseo.daterangepicker.css" rel="stylesheet">
+        <script src="static/node_files/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="static/node_files/moment.min.js"></script>
+        <script src="static/node_files/jquery.comiseo.daterangepicker.js"></script>
+        <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+        <script>
+            $(function() { $("#date_picker").daterangepicker(); });
+        </script>
         
         
         <script type="text/javascript">
@@ -34,8 +53,12 @@
                 ['CA-NT', 136],
                 ['CA-NU', 236],
                 ['CA-SK', 536],
-                ]); 
-                
+                ]);
+                fetch("data1.json")
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                })
 
                 var options = {
                 region: 'CA', // Canada
@@ -47,36 +70,6 @@
                 var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
                 chart.draw(data, options);
             };
-
-
-            readTextFile("static/data1.json", function(text){
-                var data2 = JSON.parse(text);
-                    });
-                var province = data2.covid.map(function(elem) {
-                        return elem.province;
-                    });
-                var hospitals = data2.covid.map(function(elem) {
-                        return elem.hospitals;
-                });
-                
-                var data = new google.visualization.arrayToDataTable([
-                ['provinces','hospitals'],
-                    [provinces[0], hospitals[0]],
-                    [provinces[1], hospitals[1]],
-                    [provinces[2], hospitals[2]],
-                    [provinces[3], hospitals[3]],
-                    [provinces[4], hospitals[4]],
-                    [provinces[5], hospitals[5]],
-                    [provinces[6], hospitals[6]],
-                    [provinces[7], hospitals[7]],
-                    [provinces[8], hospitals[8]],
-                    [provinces[9], hospitals[9]],
-                    [provinces[10], hospitals[10]],
-                    [provinces[11], hospitals[11]],
-                    [provinces[12], hospitals[12]],
-                    ]);
-                    
-        
             google.charts.load('current', { 'packages':['geochart'], 'mapsApiKey': 'AIzaSyAZusPDjaIShqJ9Sz1os5tUzflBo_zppxQ'});
             google.charts.setOnLoadCallback(drawDailyCasesMap);
             
@@ -96,6 +89,8 @@
                     var data1 = JSON.parse(text);
                     //console.log(data1);
                     var province = data1.covid.map(function(elem) {
+                        // console.log(typeof elem.province);
+                        // console.log(elem.province);
                         return elem.province;
                     });
                     var cases = data1.covid.map(function(elem) {
@@ -106,6 +101,10 @@
                     });
                     var data = new google.visualization.arrayToDataTable([
                     ['Province','Cases','Deaths'],
+                    // ["CA-BC", 113, 4],
+                    // ["CA-AB", 153, 4],
+                    // ["CA-SK", 183, 2], 
+                    // ["CA-MB", 144, 7],
                     [province[0], cases[0], deaths[0]],
                     [province[1], cases[1], deaths[1]],
                     [province[2], cases[2], deaths[2]],
@@ -129,17 +128,35 @@
                     };
                     chart.draw(data, options);
                 });
-                        
+                    
             };
         </script>
     </head>
     <body>
-        <div>
-            <a href="/">Home</a>
-            <a href="/daily">Daily</a>
-            <a href="/past">Past</a>
-            <a href="/hospitals">Hospitals</a>
+        <header class="header"> 
+            <nav class="navbar navbar-style">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#hamburger">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="/"> <img src="static/images/logo1.png" alt="logo" class="logo"> </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="hamburger">
+
+                    
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/daily">Today</a></li>
+                        <li><a href="/past">Past</a></li>
+                        <li><a href="/hospitals">Hospitals</a></li>
+                    </ul>
+                </div>
+            </div>
+            </nav>
             {% block content %}{% endblock %}
-        </div>
+        </header>
     </body>
 </html>

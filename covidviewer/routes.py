@@ -4,6 +4,17 @@ from flask import render_template, request, make_response
 import json
 import datetime
 
+def pushJSON(file, body_values):
+    with open(file, "w") as data_file:
+        to_file = {} #the dictionary passed to json
+            
+        to_file["covid"] = body_values
+        to_file = json.dumps(to_file)
+        data_file.write(to_file)
+        
+    data_file.close()
+    return None
+
 @app.route("/") #homepage
 def index():
     return render_template('index.html')
@@ -12,34 +23,33 @@ def index():
 def daily():
 
     #this page will take a while to load the first time because it creates a web connection to the page
-    if not request.cookies.get("daily_data"):
-        daily_data = daily_parser.extract() #call extract function from daily_parser file
-        res = make_response(render_template('daily.html', daily_data=daily_data))
-        res.set_cookie("daily_data", " ".join(daily_data), max_age=60*60*24) #cookie will last 1 day
+    if not request.cookies.get("lastUpdated"):
+        #if there is no cookie, must update, so set lastUpdated to date before any entries
+        lastUpdated = datetime.datetime.strptime("00-01-01-2020", "%H-%d-%m-%Y")
     
     else:
-        daily_data = request.cookies.get("daily_data") #retrieve cookie
-        daily_data = daily_data.split(" ") #converts string to list
-        res = render_template('daily.html', daily_data=daily_data)
+        lastUpdated = request.cookies.get("lastUpdated") #retrieve cookie
+        lastUpdated = datetime.datetime.strptime(lastUpdated, "%H-%d-%m-%Y")
 
-    #list of province codes
-    provinces = {"British Columbia": "CA-BC", "Alberta":"CA-AB", "Saskatchewan":"CA-SK", "Manitoba":"CA-MB", "Ontario":"CA-ON", "Quebec":"CA-QC", "Newfoundland and Labrador": "CA-NL", "New Brunswick": "CA-NB", "Nova Scotia": "CA-NS", "Prince Edward Island": "CA-PE", "Yukon": "CA-YT", "Northwest Territorie": "CA-NT", "Nunavut": "CA-NU"}
-    '''
-    with open("covidviewer/static/dailydata.json", "w") as data_file:
-            to_file = {} #the dictionary passed to json
-            body_values = [] #the list inside the dictionary
-            
-            for i in range(0, len(daily_data), 4):
-                
-                new_line = {"province":provinces[daily_data[i]], "cases":daily_data[i + 1], "deaths":daily_data[i + 2], "testsTaken":daily_data[i + 3]}
-                body_values.append(new_line)
-            
-            to_file["covid"] = body_values
-            to_file = json.dumps(to_file)
-            data_file.write(to_file)
+    #if it has not been updated in the last 6 hours
+    if lastUpdated + datetime.timedelta(hours=6) < datetime.datetime.now():
+        daily_data = daily_parser.extract() #call extract function from daily_parser file
+        #dict of province codes
+        provinces = {"British Columbia": "CA-BC", "Alberta":"CA-AB", "Saskatchewan":"CA-SK", "Manitoba":"CA-MB", "Ontario":"CA-ON", "Quebec":"CA-QC", "Newfoundland and Labrador": "CA-NL", "New Brunswick": "CA-NB", "Nova Scotia": "CA-NS", "Prince Edward Island": "CA-PE", "Yukon": "CA-YT", "Northwest Territories": "CA-NT", "Nunavut": "CA-NU"}
         
-    data_file.close()
-    '''
+        body_values = [] #the list inside the dictionary
+        #first 4 entries relate to Canada wide, which doesn't show up on the map
+        daily_data = daily_data[4:] 
+                
+        for i in range(0, len(daily_data), 4):    
+            new_line = {"province":provinces[daily_data[i]], "cases":int(daily_data[i + 1]), "deaths":int(daily_data[i + 2])}
+            body_values.append(new_line)
+            
+        pushJSON("covidviewer/static/dailydata.json", body_values)
+        lastUpdated = datetime.datetime.now()
+    
+    res = make_response(render_template('daily.html'))
+    res.set_cookie("lastUpdated", datetime.datetime.strftime(lastUpdated, "%H-%d-%m-%Y"), max_age=60*60*24) #cookie will last 1 day
     return res
     
 @app.route("/past", methods=['GET', 'POST']) #past data page
@@ -62,9 +72,6 @@ def past():
     
     #printout only the results related to the search
     #add province searches and Canada wide searches
-    #add date selection
-    #json default nothing
-    
     if chosenValue:
         chosenValue = chosenValue.split(":") #splits into list of 2, province and region
         #query sql database
@@ -105,19 +112,14 @@ def past():
                     new_line = [entry.name, entry.region, entry.date, str(entry.cases_today), str(entry.cumulative_cases), str(entry.deaths_today), str(entry.cumulative_deaths)]
                     printout.append(new_line)
         
-        with open("covidviewer/static/pastdata.json", "w") as data_file:
-            to_file = {} #the dictionary passed to json
-            body_values = [] #the list inside the dictionary
+        body_values = [] #the list inside the dictionary
             
-            for row in printout:
-                new_line = {"date":row[2], "cases":row[3], "deaths":row[5]}
-                body_values.append(new_line)
+        for row in printout:
+            new_line = {"date":row[2], "cases":row[3], "deaths":row[5]}
+            body_values.append(new_line)
             
-            to_file["covid"] = body_values
-            to_file = json.dumps(to_file)
-            data_file.write(to_file)
-        
-        data_file.close()
+        pushJSON("covidviewer/static/pastdata.json", body_values)
+
     return render_template('past.html', entries=printout, regions=regions, chosenValue=chosenValue)
 
 @app.route("/hospitals") #hospitals map page
@@ -146,11 +148,10 @@ def hospitals():
     for h in hospitals:
         new_line = h.province + ": " + str(h.number_hospitals)
         hospitals_by_province.append(new_line)
-<<<<<<< Updated upstream
     
     return render_template('hospitals.html', hospitals=hospitals_by_province)
 
-
+'''
 @app.route("/test", methods=['GET', 'POST']) #test page for html forms
 def test():
     chosenValue = ""
@@ -158,71 +159,4 @@ def test():
         chosenValue = request.form.get('region', None)
     res = render_template('test.html', chosenValue=chosenValue)
     return res
-=======
-    return render_template('hospitals.html', hospitals=hospitals_by_province)
-
-
-import json
-f = open("data1.json", "r")
-y = json.loads(f.read())
-
-
-x = { "province/hospitals" :
-    [
-        {
-            "province" : "Ontario",
-            "hospitals": 360
-        },
-        {
-            "province" : "Newfoundland and Labrador",
-            "hospitals": 3
-        },
-        {
-            "province" : "Prince Edward Island",
-            "hospitals": 23
-        },
-        {
-            "province" : "Nova Scotia",
-            "hospitals": 36
-        },
-        {
-            "province" : "New  Brunswick",
-            "hospitals": 6
-        },
-        {
-            "province" : "Alberta",
-            "hospitals": 5
-        },
-        {
-            "province" : "Quebec",
-            "hospitals": 230
-        },
-        {
-            "province" : "British Columbia",
-            "hospitals": 7
-        },
-        {
-            "province" : "Yukon",
-            "hospitals": 82
-        },
-        {
-            "province" : "Manitoba",
-            "hospitals": 33
-        },
-        {
-            "province" : "Northwest Territories",
-            "hospitals": 136
-        },
-        {
-            "province" : "Nunavut",
-            "hospitals": 236
-        },
-        {
-            "province" : "Saskatchewan",
-            "hospitals": 536
-        }
-    ]
-}
-y = json.dumps(x)
-print(y["province", "hospitals"])
->>>>>>> Stashed changes
+'''
