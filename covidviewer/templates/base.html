@@ -9,7 +9,7 @@
         <script type="text/javascript" src="static/dailychartmaking.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
-        
+        <script type="text/javascript" src="static/data1.json"></script> 
         
         
         <script type="text/javascript">
@@ -34,12 +34,8 @@
                 ['CA-NT', 136],
                 ['CA-NU', 236],
                 ['CA-SK', 536],
-                ]);
-                fetch("data1.json")
-                .then(response => response.json())
-                .then(data => {
-                    consol.log(data)
-                })
+                ]); 
+                
 
                 var options = {
                 region: 'CA', // Canada
@@ -51,6 +47,36 @@
                 var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
                 chart.draw(data, options);
             };
+
+
+            readTextFile("static/data1.json", function(text){
+                var data2 = JSON.parse(text);
+                    });
+                var province = data2.covid.map(function(elem) {
+                        return elem.province;
+                    });
+                var hospitals = data2.covid.map(function(elem) {
+                        return elem.hospitals;
+                });
+                
+                var data = new google.visualization.arrayToDataTable([
+                ['provinces','hospitals'],
+                    [provinces[0], hospitals[0]],
+                    [provinces[1], hospitals[1]],
+                    [provinces[2], hospitals[2]],
+                    [provinces[3], hospitals[3]],
+                    [provinces[4], hospitals[4]],
+                    [provinces[5], hospitals[5]],
+                    [provinces[6], hospitals[6]],
+                    [provinces[7], hospitals[7]],
+                    [provinces[8], hospitals[8]],
+                    [provinces[9], hospitals[9]],
+                    [provinces[10], hospitals[10]],
+                    [provinces[11], hospitals[11]],
+                    [provinces[12], hospitals[12]],
+                    ]);
+                    
+        
             google.charts.load('current', { 'packages':['geochart'], 'mapsApiKey': 'AIzaSyAZusPDjaIShqJ9Sz1os5tUzflBo_zppxQ'});
             google.charts.setOnLoadCallback(drawDailyCasesMap);
             
@@ -103,7 +129,7 @@
                     };
                     chart.draw(data, options);
                 });
-                    
+                        
             };
         </script>
     </head>
