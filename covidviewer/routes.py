@@ -143,11 +143,16 @@ def hospitals():
         "Yukon: 17"
     ]
     '''
+    
     hospitals = Hospitals.query.all() #query sql database 
     
     for h in hospitals:
-        new_line = h.province + ": " + str(h.number_hospitals)
+        new_line = {"province":h.province, "hospitals":h.number_hospitals}
         hospitals_by_province.append(new_line)
+
+    pushJSON("covidviewer/static/data1.json", hospitals_by_province)
+
+    
     
     return render_template('hospitals.html', hospitals=hospitals_by_province)
 
