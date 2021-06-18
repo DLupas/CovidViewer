@@ -4,6 +4,17 @@ from flask import render_template, request, make_response
 import json
 import datetime
 
+def pushJSON(file, body_values):
+    with open(file, "w") as data_file:
+        to_file = {} #the dictionary passed to json
+            
+        to_file["covid"] = body_values
+        to_file = json.dumps(to_file)
+        data_file.write(to_file)
+        
+    data_file.close()
+    return None
+
 @app.route("/") #homepage
 def index():
     return render_template('index.html')
@@ -26,22 +37,15 @@ def daily():
         #dict of province codes
         provinces = {"British Columbia": "CA-BC", "Alberta":"CA-AB", "Saskatchewan":"CA-SK", "Manitoba":"CA-MB", "Ontario":"CA-ON", "Quebec":"CA-QC", "Newfoundland and Labrador": "CA-NL", "New Brunswick": "CA-NB", "Nova Scotia": "CA-NS", "Prince Edward Island": "CA-PE", "Yukon": "CA-YT", "Northwest Territories": "CA-NT", "Nunavut": "CA-NU"}
         
-        with open("covidviewer/static/dailydata.json", "w") as data_file:
-                to_file = {} #the dictionary passed to json
-                body_values = [] #the list inside the dictionary
-                #first 4 entries relate to Canada wide, which doesn't show up on the map
-                daily_data = daily_data[4:] 
+        body_values = [] #the list inside the dictionary
+        #first 4 entries relate to Canada wide, which doesn't show up on the map
+        daily_data = daily_data[4:] 
                 
-                for i in range(0, len(daily_data), 4):
-                    
-                    new_line = {"province":provinces[daily_data[i]], "cases":int(daily_data[i + 1]), "deaths":int(daily_data[i + 2])}
-                    body_values.append(new_line)
-                
-                to_file["covid"] = body_values
-                to_file = json.dumps(to_file)
-                data_file.write(to_file)
+        for i in range(0, len(daily_data), 4):    
+            new_line = {"province":provinces[daily_data[i]], "cases":int(daily_data[i + 1]), "deaths":int(daily_data[i + 2])}
+            body_values.append(new_line)
             
-        data_file.close()
+        pushJSON("covidviewer/static/dailydata.json", body_values)
         lastUpdated = datetime.datetime.now()
     
     res = make_response(render_template('daily.html'))
@@ -108,19 +112,14 @@ def past():
                     new_line = [entry.name, entry.region, entry.date, str(entry.cases_today), str(entry.cumulative_cases), str(entry.deaths_today), str(entry.cumulative_deaths)]
                     printout.append(new_line)
         
-        with open("covidviewer/static/pastdata.json", "w") as data_file:
-            to_file = {} #the dictionary passed to json
-            body_values = [] #the list inside the dictionary
+        body_values = [] #the list inside the dictionary
             
-            for row in printout:
-                new_line = {"date":row[2], "cases":row[3], "deaths":row[5]}
-                body_values.append(new_line)
+        for row in printout:
+            new_line = {"date":row[2], "cases":row[3], "deaths":row[5]}
+            body_values.append(new_line)
             
-            to_file["covid"] = body_values
-            to_file = json.dumps(to_file)
-            data_file.write(to_file)
-        
-        data_file.close()
+        pushJSON("covidviewer/static/pastdata.json", body_values)
+
     return render_template('past.html', entries=printout, regions=regions, chosenValue=chosenValue)
 
 @app.route("/hospitals") #hospitals map page
@@ -152,7 +151,7 @@ def hospitals():
     
     return render_template('hospitals.html', hospitals=hospitals_by_province)
 
-
+'''
 @app.route("/test", methods=['GET', 'POST']) #test page for html forms
 def test():
     chosenValue = ""
@@ -160,3 +159,4 @@ def test():
         chosenValue = request.form.get('region', None)
     res = render_template('test.html', chosenValue=chosenValue)
     return res
+'''
