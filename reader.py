@@ -1,3 +1,12 @@
+'''
+from selenium import webdriver
+my_url = "https://health-infobase.canada.ca/covid-19/epidemiological-summary-covid-19-cases.html"
+driver = webdriver.PhantomJS()
+driver.get(my_url)
+p_element = driver.getElementsByClass('nationalNumbers-data')
+print(p_element.text)
+'''
+'''
 import csv, urllib.request
 
 database_url = "https://raw.githubusercontent.com/ccodwg/Covid19Canada/master/timeseries_hr/cases_timeseries_hr.csv"
@@ -11,6 +20,7 @@ f = open("printout.txt", "w")
 for row in csv_file:
     if row[1] != "Not Reported":
         f.write(str(row) + "\n")
+'''
 '''
 data = response.read()
 csv_file = csv.reader(data)

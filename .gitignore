@@ -12,4 +12,5 @@ env*
 .vscode
 .sqlite3
 geckodriver.log
+ghostdriver.log
 node_modules/

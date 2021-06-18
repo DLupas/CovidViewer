@@ -17,6 +17,7 @@ def extract():
     #geckodriver must be installed in path to use Firefox
     driver = webdriver.Firefox(options=options)
     driver.get(dataURL)
+    #give page time to load
     time.sleep(5)
     page = driver.page_source
     #requests.get() gives straight html
