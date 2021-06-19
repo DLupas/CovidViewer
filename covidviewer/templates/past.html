@@ -2,23 +2,40 @@
 
 {% block content %}
 <div class="contain">
-    <h1>Test Graph</h1>
     <div>
-        <canvas id="canvas"></canvas>
-    </div>
-</div>
-<div>
     <form action="/past" method="POST">
+
         <select name="region" id="region">
             {% for region in regions %}
             <option value="{{ region }}">{{ region }}</option>
             {% endfor %}
         </select><br>
         <input name="date_picker" id="date_picker"><br>
-        <input type="submit" value="Submit">
+        <button type="submit" class="btn btn-primary" style="vertical-align:middle"><span>Submit</span></button>
     </form>
 </div>
-<!--<p> {{ chosenValue }}</p>-->
+    <h1><p> {{ chosenValue }}</p></h1>
+    <div>
+        <canvas id="canvas"></canvas>
+    </div>
+    <h1>COVID-19 daily epidemiology update</h1>
+<div>
+    <p>Thank you for taking the time to visit our website! Daniel,
+        Ananth, and Alhareth are the members of team cringe. We collaborated
+         to develop this website, which we named "CovidViewer." The purpose 
+         of this website is to create a tracker that tracks and displays the
+          number of covid cases in Canada on a web page. The website will
+           provide statistics on the number of covid cases as well as fatalities.
+            On the website, there will also be an interactive map with information for
+             each province in Canada. Information such as the number of hospitals in each
+              province are available. A candlestick graph was also created to offer a better visual 
+              representation of the number of cases and fatalities. We opted to develop this website 
+              because we believed it would be good for us to understand more about not only the covid 
+              statistics in Canada, but also the variances between each province and how they deal with this crisis.</p>
+</div>
+</div>
+
+
 <!--
 {% for entry in entries %}
 <div>

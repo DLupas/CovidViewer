@@ -6,8 +6,20 @@
     margin: 0px;
     padding: 0px;
 }
+
+ul {
+    list-style-type: none;
+}
 .header {
     height: 100vh;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.landing {
+    padding-left: 10%;
+    padding-right: 10%;
+    width: 100%;
+    align-items: center;
 }
 .navbar-style {
     box-shadow: 0 5px 10px rgb(239, 239, 239);
@@ -16,7 +28,7 @@
 
 .logo {
     height: 48px;
-    padding: 2px 10px;
+    width: 48px;
 }
 .icon-bar {
     background: black;
@@ -28,22 +40,88 @@ body {
     margin: 0;
     background-color: white;
     display: flex;
-    align-items: center;
+}
+.bulletimages {
+    height: 50px;
+    width: 50px;
+    margin: 20px;
 }
 li a {
     color:black;
 }
 .contain {
     width: 90%;
+    padding-left: 10%;
+    padding-right: 10%;
+    align-items: center;
 }
 h1 {
     text-align: center;
     font-size: 40px;
 }
-
+.List {
+    text-align: center;
+}
+.fullList {
+    display: inline-block;
+    text-align: left;
+}
 #canvas {
     width: 100%;
 }
-#chart_div {
-    width: 100%;
+#geoChartHospitals {
+    height: 500px;
+    align-items: center;
+}
+
+#geoChartCases {
+    height: 500px;
+    align-items: center;
+}
+
+footer {
+  overflow-x: hidden;
+  padding: 14vmin 18vmin;
+}
+
+footer p > span {
+  color:black;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  transition: all 1.5s ease;
+}
+
+.btn-primary {
+    transition: all 0.5s;
+    cursor: pointer;
+  }
+  
+.btn-primary span {
+cursor: pointer;
+display: inline-block;
+position: relative;
+transition: 0.5s;
+}
+
+.btn-primary span:after {
+content: '\00bb';
+position: absolute;
+opacity: 0;
+top: 0;
+right: -20px;
+transition: 0.5s;
+}
+
+.btn-primary:hover span {
+padding-right: 25px;
+}
+
+.btn-primary:hover span:after {
+opacity: 1;
+right: 0;
 }

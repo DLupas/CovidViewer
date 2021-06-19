@@ -16,8 +16,9 @@
         <script type="text/javascript" src="static/chartmaking.js"></script>
         <script type="text/javascript" src="static/dailychartmaking.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>    
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!--Using the JQuery Date Range Picker module-->
         <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
         <link href="static/node_files/jquery.comiseo.daterangepicker.css" rel="stylesheet">
@@ -32,44 +33,6 @@
         
         
         <script type="text/javascript">
-            google.charts.load('current', {
-                'packages':['geochart'],
-                'mapsApiKey': 'AIzaSyAZusPDjaIShqJ9Sz1os5tUzflBo_zppxQ'
-            });
-            google.charts.setOnLoadCallback(drawRegionsMap);
-            function drawRegionsMap() {
-                var data = google.visualization.arrayToDataTable([
-                ['Province',   'Hospitals'],
-                ['CA-ON', 360],
-                ['CA-NL', 3],
-                ['CA-PE', 23],
-                ['CA-NS', 36],
-                ['CA-NB', 6],
-                ['CA-AB', 5],
-                ['CA-QC', 230],
-                ['CA-BC', 7],
-                ['CA-YT', 82],
-                ['CA-MB', 33],
-                ['CA-NT', 136],
-                ['CA-NU', 236],
-                ['CA-SK', 536],
-                ]);
-                fetch("data1.json")
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                })
-
-                var options = {
-                region: 'CA', // Canada
-                resolution: 'provinces',
-                colorAxis: {colors: ['#DE3163', '#880808']}, //https://htmlcolorcodes.com/colors/shades-of-red/
-                backgroundColor: '#81d4fa',
-                };
-
-                var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
-                chart.draw(data, options);
-            };
             google.charts.load('current', { 'packages':['geochart'], 'mapsApiKey': 'AIzaSyAZusPDjaIShqJ9Sz1os5tUzflBo_zppxQ'});
             google.charts.setOnLoadCallback(drawDailyCasesMap);
             
@@ -119,19 +82,81 @@
                     [province[11], cases[11], deaths[11]],
                     [province[12], cases[12], deaths[12]],
                     ]);
-                    var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+                    var chart = new google.visualization.GeoChart(document.getElementById('geoChartCases'));
                     var options = {
                         region: 'CA', // Canada
                         resolution: 'provinces',
-                        colorAxis: {colors: ['#35de35', '#1c8c1c']}, //https://htmlcolorcodes.com/colors/shades-of-red/
+                        colorAxis: {colors: ['#35de35', '#1c8c1c']}, 
                         backgroundColor: '#81d4fa',
                     };
                     chart.draw(data, options);
                 });
                     
             };
+            $(window).resize(function(){
+                drawDailyCasesMap();
+            });
+            google.charts.load('current', { 'packages':['geochart'], 'mapsApiKey': 'AIzaSyAZusPDjaIShqJ9Sz1os5tUzflBo_zppxQ'});
+            google.charts.setOnLoadCallback(drawHospitalsMap);
+            
+            function drawHospitalsMap() {
+                function readTextFile(file, callback) {
+                    var rawFile = new XMLHttpRequest();
+                    rawFile.overrideMimeType("application/json");
+                    rawFile.open("GET", file, true);
+                    rawFile.onreadystatechange = function() {
+                        if (rawFile.readyState === 4 && rawFile.status == "200") {
+                            callback(rawFile.responseText);
+                        }
+                    }
+                    rawFile.send(null);
+                }
+                readTextFile("static/data1.json", function(text){
+                    var hospitalData = JSON.parse(text);
+                    //console.log(data1);
+                    var province = hospitalData.covid.map(function(elem) {
+                        // console.log(typeof elem.province);
+                        // console.log(elem.province);
+                        return elem.province;
+                    });
+                    var hospitals = hospitalData.covid.map(function(elem) {
+                        return elem.hospitals;
+                    });
+
+                    var data = new google.visualization.arrayToDataTable([
+                    ['Province','Hospitals'],
+                    [province[0], hospitals[0]],
+                    [province[1], hospitals[1]],
+                    [province[2], hospitals[2]],
+                    [province[3], hospitals[3]],
+                    [province[4], hospitals[4]],
+                    [province[5], hospitals[5]],
+                    [province[6], hospitals[6]],
+                    [province[7], hospitals[7]],
+                    [province[8], hospitals[8]],
+                    [province[9], hospitals[9]],
+                    [province[10], hospitals[10]],
+                    [province[11], hospitals[11]],
+                    [province[12], hospitals[12]],
+                    ]);
+                    var chart = new google.visualization.GeoChart(document.getElementById('geoChartHospitals'));
+                    var options = {
+                        region: 'CA', // Canada
+                        resolution: 'provinces',
+                        colorAxis: {colors: ['#DE3163', '#880808']}, 
+                        backgroundColor: '#81d4fa',
+                    };
+                    chart.draw(data, options);
+                });
+                    
+            };
+
+            $(window).resize(function(){
+                drawHospitalsMap();
+            });
         </script>
     </head>
+    
     <body>
         <header class="header"> 
             <nav class="navbar navbar-style">
@@ -142,11 +167,12 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
+
                         <a href="/"> <img src="static/images/logo1.png" alt="logo" class="logo"> </a>
+
+
                     </div>
                     <div class="collapse navbar-collapse" id="hamburger">
-
-                    
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/">Home</a></li>
                         <li><a href="/daily">Today</a></li>
@@ -158,5 +184,7 @@
             </nav>
             {% block content %}{% endblock %}
         </header>
-    </body>
+
+</body>
+
 </html>
