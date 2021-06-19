@@ -128,8 +128,13 @@ def past():
             body_values.append(new_line)
             
         pushJSON("covidviewer/static/pastdata.json", body_values)
-
-    return render_template('past.html', entries=printout, regions=regions, chosenValue=chosenValue)
+    
+    chart_title = ""
+    if chosenValue:
+        chart_title = search_for_region
+    else:
+        chart_title = "Search for a Region"
+    return render_template('past.html', entries=printout, regions=regions, chosenValue=chart_title)
 
 @app.route("/hospitals") #hospitals map page
 def hospitals():
