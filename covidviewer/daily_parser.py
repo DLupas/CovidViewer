@@ -1,3 +1,12 @@
+'''
+ -----------------------------------------------------
+ Name:             Daily Parser
+ Purpose:          Scraps the gov of Canada website for the latest covid updates to put on the daily page
+ Author:           Daniel Lupas
+ Updated:          18-Jun-2021
+ References:       Using beautiful soup and selenium libraries, with some inspiration from examples and documentation
+ ----------------------------------------------------
+'''
 from bs4 import BeautifulSoup
 from selenium import webdriver
 #selenium is requiered to render javascript 

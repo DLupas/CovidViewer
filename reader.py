@@ -1,4 +1,13 @@
 '''
+ -----------------------------------------------------
+ Name:             reader
+ Purpose:          test file
+ Author:           Daniel Lupas
+ Updated:          18-Jun-2021
+ References:       
+ ----------------------------------------------------
+'''
+'''
 from selenium import webdriver
 my_url = "https://health-infobase.canada.ca/covid-19/epidemiological-summary-covid-19-cases.html"
 driver = webdriver.PhantomJS()

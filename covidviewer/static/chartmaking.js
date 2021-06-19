@@ -1,3 +1,12 @@
+//-----------------------------------------------------
+// Name:             chartmaking
+// Purpose:          creates graph on the past.html page
+// Author:           Ananth Chebolu
+// Updated:          18-Jun-2021
+// References:       Google fonts used, bootstrap for CSS
+//                   Query, JQuery-UI, moment-js, JQuery-UI-daterangepicker used to create calendar widget
+//                   Google Charts API used to create daily and hospitals graphs
+// ----------------------------------------------------
 var xmlHttp = new XMLHttpRequest();
 var url = "static/pastdata.json";
 xmlHttp.open("GET", url, true);

@@ -1,3 +1,12 @@
+'''
+ -----------------------------------------------------
+ Name:             routes
+ Purpose:          Defines the different pages on the website and pushes data from backend to frontend
+ Author:           Daniel Lupas, Alhareth Damdam
+ Updated:          18-Jun-2021
+ References:       
+ ----------------------------------------------------
+'''
 from covidviewer import app, db, PastData, Hospitals
 from covidviewer import daily_parser
 from flask import render_template, request, make_response

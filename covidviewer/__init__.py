@@ -1,3 +1,13 @@
+'''
+ -----------------------------------------------------
+ Name:             __init__
+ Purpose:          Run when the flask application is created, initializes the application
+ Author:           Daniel Lupas
+ Updated:          18-Jun-2021
+ References:       Past cases and deaths data taken from https://opencovid.ca's open project at https://raw.githubusercontent.com/ccodwg/Covid19Canada/master
+                   Hosptial data taken from: https://www.ic.gc.ca/app/scr/app/cis/businesses-entreprises/622?wbdisable=true
+ ----------------------------------------------------
+'''
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import datetime
