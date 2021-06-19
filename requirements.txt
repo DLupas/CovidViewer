@@ -18,6 +18,8 @@ js.momentjs==2.13.1
 lxml==4.6.3
 Mako==1.1.4
 MarkupSafe==2.0.1
+npm==0.1.1
+optional-django==0.1.0
 python-dateutil==2.8.1
 python-dotenv==0.17.1
 python-editor==1.0.4
