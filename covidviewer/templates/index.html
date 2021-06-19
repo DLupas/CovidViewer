@@ -1,21 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>COVID-19 daily epidemiology update</h1>
-<div>
-    <p>Thank you for taking the time to visit our website! Daniel,
-        Ananth, and Alhareth are the members of team cringe. We collaborated
-         to develop this website, which we named "CovidViewer." The purpose 
-         of this website is to create a tracker that tracks and displays the
-          number of covid cases in Canada on a web page. The website will
-           provide statistics on the number of covid cases as well as fatalities.
-            On the website, there will also be an interactive map with information for
-             each province in Canada. Information such as the number of hospitals in each
-              province are available. A candlestick graph was also created to offer a better visual 
-              representation of the number of cases and fatalities. We opted to develop this website 
-              because we believed it would be good for us to understand more about not only the covid 
-              statistics in Canada, but also the variances between each province and how they deal with this crisis.</p>
+<div class="landing">
+<h1>How to use our platform</h1>
+<div class="embed-responsive embed-responsive-16by9">
+  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/qESRgMUYXeg" allowfullscreen></iframe>
+</div>
 </div>
 
+<div class="precautions">
+    <h1>Take following measures to protect yourself from Contracting and Spreading COVID-19 </h1>
+    <div class="List">
+    <ul class= "fullList">
+        <li> <img src="/static/images/mask.png" class="bulletimages" alt=""> <h4> Wear a mask</h4></li>
+        <li><img src="/static/images/distance.png" class="bulletimages" alt=""> <h4>Maintain a minimum of 6 Feet or 1 Meter distance from others</h4></li>
+        <li><img src="/static/images/vaccine.png" class="bulletimages" alt=""> <h4>Get Vaccinated</h4> </li>
+        <li><img src="/static/images/avoid-crowds.png" class="bulletimages" alt=""> <h4>Avoid crowded areas</h4></li>
+        <li><img src="/static/images/washing-hands.png" class="bulletimages" alt=""> <h4> Wash hands regularly</h4></li>
+        <li> <img src="/static/images/clean.png" class="bulletimages" alt=""> <h4>Disinfect frequently used srfaces</h4></li>
+        <li> <img src="/static/images/healthcare.png" class="bulletimages" alt=""> <h4> Monitor health regularly</h4></li>
+    </ul>
+</div>
+    </div>
+
+<footer>
+    <div class="container-fluid p-0">
+      <div class="row text-left">
+        <div class="col-md-5 col-sm-5">
+          <h4 class="text-light">About us</h4>
+          <p class="text-muted">We are a group of enthusiastic High School students working to inform the public and create awareness for Coronavirus  </p>
+          <p class="pt-4 text-muted">Copyright ©2021 All rights reserved | This program is made with by
+            <span> Alhareth Damdam, Ananth Chebolu, and Daniel Lupas</span>
+          </p>
+        </div>
+
+        <div class="col-md-2 col-sm-12" id="socials">
+          <h4 class="text-light">Follow our socials</h4>
+          <p class="text-muted">Be Safe Be Cringe!</p>
+          <div class="column text-light">
+              <a href="https://twitter.com/covid_cringe" target="_blank"><i class="fa fa-twitter"></i></a>
+              <a href="https://www.instagram.com/"  target="_blank"><i class="fa fa-instagram"></i></a>
+              <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook-f"></i></a>
+              <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 {% endblock %}

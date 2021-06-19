@@ -39,10 +39,10 @@ xmlHttp.onreadystatechange = function() {
             },
             
             options: {
-                
                 scales: {
                     y: {
                         beginAtZero: true
+                        
                     }
                 }
             }
